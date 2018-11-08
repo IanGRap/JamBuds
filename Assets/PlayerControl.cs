@@ -3,14 +3,17 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerControl : MonoBehaviour {
-    public int speed = 5;    // this controls the speed of the constant rightward motion
+    public float speed = 5.0f;    // this controls the speed of the constant rightward motion
     public GameObject player;// This is a reference to the player, remember to drag and drop player object
     public Material noteMaterial; // this is a public variable containing the note materail
     private GameObject[] Notes = new GameObject[4]; // these will keep references to the note objects
     private int noteIndex = 0; // this keeps track of how many notes have been placed
     private bool[] isInCol = new bool[] {false, false, false, false}; // this keeps track of the collumns which already have notes
+    public AudioClip audioClip;    // The track associated with this note
+    private AudioSource aS;        // Audio Source reference, used to play, pause, and manage the audio
 	void Start () {
-		
+        aS = gameObject.GetComponent<AudioSource>();
+        addClip(audioClip);
 	}
 	
 	// Update is called once per frame
@@ -78,8 +81,33 @@ public class PlayerControl : MonoBehaviour {
                 Notes[noteIndex].GetComponent<Renderer>().material = noteMaterial; // apply the material
                 noteIndex++;// increase record of notes placed
             }
-            // place it at the correct position
             
         }
+        // place audio clip play sounds
+        if(player.transform.position.x > -6.7f && player.transform.position.x < -6.5f && isInCol[0]){
+            playClip();
+        }
+        if(player.transform.position.x > -0.05f && player.transform.position.x < 0.05f && isInCol[1]){
+            playClip();
+        }
+        if(player.transform.position.x > 6.5f && player.transform.position.x < 6.7f && isInCol[2]){
+            playClip();
+        }
+        if(player.transform.position.x > 12.8f && player.transform.position.x < 13.0f && isInCol[0]){
+            playClip();
+        }
 	}
+    public void addClip(AudioClip inputClip) {
+        audioClip = inputClip;
+        aS.clip = audioClip;
+    }
+
+    // Checks if you have an inputted clip and plays it
+    public void playClip() {
+        if(aS.clip != null) {
+            aS.Play();
+        } else {
+            print("no audio clip buddy :( Try using the addClip function with an AudioClip");
+        }
+    }
 }
