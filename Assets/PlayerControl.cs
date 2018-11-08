@@ -7,7 +7,7 @@ public class PlayerControl : MonoBehaviour {
     public GameObject player;// This is a reference to the player, remember to drag and drop player object
     public Material noteMaterial; // this is a public variable containing the note materail
     private GameObject[] Notes = new GameObject[4]; // these will keep references to the note objects
-    private int noteIndex = 0; // this keeps track of how many notes have been placed
+//    private int numNotes = 0; // this keeps track of how many notes have been placed
     private bool[] isInCol = new bool[] {false, false, false, false}; // this keeps track of the collumns which already have notes
     public AudioClip audioClip;    // The track associated with this note
     private AudioSource aS;        // Audio Source reference, used to play, pause, and manage the audio
@@ -43,45 +43,56 @@ public class PlayerControl : MonoBehaviour {
             player.transform.position = new Vector3(player.transform.position.x, player.transform.position.y, 5.5f);
         }
         // This should create a not on the screen, I hope
-        if(Input.GetKeyDown(KeyCode.Return) && noteIndex < 4){
+        if(Input.GetKeyDown(KeyCode.Return)){
             
             // calculate the position to place the note and place one if necessary 1st collumn
             if(player.transform.position.x < -6.65f && !isInCol[0]){
-                Notes[noteIndex] = GameObject.CreatePrimitive(PrimitiveType.Cylinder); // add a note to the array 
-                Notes[noteIndex].transform.position = new Vector3(-6.45f, player.transform.position.y, player.transform.position.z); // adjust x position for angle of view
+                Notes[0] = GameObject.CreatePrimitive(PrimitiveType.Cylinder); // add a note to the array 
+                Notes[0].transform.position = new Vector3(-6.45f, player.transform.position.y, player.transform.position.z); // adjust x position for angle of view
                 isInCol[0] = true;
-                Notes[noteIndex].transform.Rotate(Vector3.right * 90.0f); // rotate the cylinder
-                Notes[noteIndex].GetComponent<Renderer>().material = noteMaterial; // apply the material
-                noteIndex++;// increase record of notes placed
+                Notes[0].transform.Rotate(Vector3.right * 90.0f); // rotate the cylinder
+                Notes[0].GetComponent<Renderer>().material = noteMaterial; // apply the material
+//                numNotes++;// increase record of notes placed
+            }
+            else if(player.transform.position.x < -6.65f && isInCol[0]){
+                Notes[0].transform.position = new Vector3(-6.45f, player.transform.position.y, player.transform.position.z); // adjust x position for angle of view
             }
             // calculate the position to place the note and place one if necessary 2st collumn
             else if(player.transform.position.x < 0f && player.transform.position.x > -6.65f && !isInCol[1]){
-                Notes[noteIndex] = GameObject.CreatePrimitive(PrimitiveType.Cylinder); // add a note to the array 
-                Notes[noteIndex].transform.position = new Vector3(0.0f, player.transform.position.y, player.transform.position.z);
+                Notes[1] = GameObject.CreatePrimitive(PrimitiveType.Cylinder); // add a note to the array 
+                Notes[1].transform.position = new Vector3(0.0f, player.transform.position.y, player.transform.position.z);
                 isInCol[1] = true;
-                Notes[noteIndex].transform.Rotate(Vector3.right * 90.0f); // rotate the cylinder
-                Notes[noteIndex].GetComponent<Renderer>().material = noteMaterial; // apply the material
-                noteIndex++;// increase record of notes placed
+                Notes[1].transform.Rotate(Vector3.right * 90.0f); // rotate the cylinder
+                Notes[1].GetComponent<Renderer>().material = noteMaterial; // apply the material
+//                numNotes++;// increase record of notes placed
+            }
+            else if(player.transform.position.x < 0f && player.transform.position.x > -6.65f && isInCol[1]){
+                Notes[1].transform.position = new Vector3(0.0f, player.transform.position.y, player.transform.position.z);
             }
             // calculate the position to place the note and place one if necessary 3rd collumn
             else if(player.transform.position.x < 6.65f && player.transform.position.x > 0.0f && !isInCol[2]){
-                Notes[noteIndex] = GameObject.CreatePrimitive(PrimitiveType.Cylinder); // add a note to the array 
-                Notes[noteIndex].transform.position = new Vector3(6.45f, player.transform.position.y, player.transform.position.z); // adjust x position for angle of view
+                Notes[2] = GameObject.CreatePrimitive(PrimitiveType.Cylinder); // add a note to the array 
+                Notes[2].transform.position = new Vector3(6.45f, player.transform.position.y, player.transform.position.z); // adjust x position for angle of view
                 isInCol[2] = true;
-                Notes[noteIndex].transform.Rotate(Vector3.right * 90.0f); // rotate the cylinder
-                Notes[noteIndex].GetComponent<Renderer>().material = noteMaterial; // apply the material
-                noteIndex++;// increase record of notes placed
+                Notes[2].transform.Rotate(Vector3.right * 90.0f); // rotate the cylinder
+                Notes[2].GetComponent<Renderer>().material = noteMaterial; // apply the material
+//                numNotes++;// increase record of notes placed
+            }
+            else if(player.transform.position.x < 6.65f && player.transform.position.x > 0.0f && isInCol[2]){
+                Notes[2].transform.position = new Vector3(6.45f, player.transform.position.y, player.transform.position.z); // adjust x position for angle of view
             }
             // calculate the position to place the note and place one if necessary 4th collumn
-            else if(player.transform.position.x < 13.3f && player.transform.position.x > 6.65f &&!isInCol[3]){
-                Notes[noteIndex] = GameObject.CreatePrimitive(PrimitiveType.Cylinder); // add a note to the array 
-                Notes[noteIndex].transform.position = new Vector3(12.8f, player.transform.position.y, player.transform.position.z); // adjust x position for angle of view
+            else if(player.transform.position.x < 13.3f && player.transform.position.x > 6.65f && !isInCol[3]){
+                Notes[3] = GameObject.CreatePrimitive(PrimitiveType.Cylinder); // add a note to the array 
+                Notes[3].transform.position = new Vector3(12.8f, player.transform.position.y, player.transform.position.z); // adjust x position for angle of view
                 isInCol[3] = true;
-                Notes[noteIndex].transform.Rotate(Vector3.right * 90.0f); // rotate the cylinder
-                Notes[noteIndex].GetComponent<Renderer>().material = noteMaterial; // apply the material
-                noteIndex++;// increase record of notes placed
+                Notes[3].transform.Rotate(Vector3.right * 90.0f); // rotate the cylinder
+                Notes[3].GetComponent<Renderer>().material = noteMaterial; // apply the material
+//                numNotes++;// increase record of notes placed
             }
-            
+            else if(player.transform.position.x < 13.3f && player.transform.position.x > 6.65f && isInCol[3]){
+                Notes[3].transform.position = new Vector3(12.8f, player.transform.position.y, player.transform.position.z); // adjust x position for angle of view
+            }
         }
         // place audio clip play sounds
         if(player.transform.position.x > -6.7f && player.transform.position.x < -6.5f && isInCol[0]){
