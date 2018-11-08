@@ -43,7 +43,7 @@ public class PlayerControl : MonoBehaviour {
             player.transform.position = new Vector3(player.transform.position.x, player.transform.position.y, 5.5f);
         }
         // This should create a not on the screen, I hope
-        if(Input.GetKeyDown(KeyCode.Return)){
+        if(Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.Space)){
             
             // calculate the position to place the note and place one if necessary 1st collumn
             if(player.transform.position.x < -6.65f && !isInCol[0]){
