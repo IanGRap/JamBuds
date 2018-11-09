@@ -110,38 +110,4 @@ public class PlayerControl : MonoBehaviour {
             print("no audio clip provided");
         }
     }
-/*
-    public void addClip(AudioClip inputClip, int index) {
-        switch (index){
-            case 0:
-                topSound = inputClip;
-                aS[0].clip = topSound;
-                print("adding topsound to aS(0)");
-                break;
-            case 1:
-                middleSound = inputClip;
-                aS[1].clip = middleSound;
-                print("adding middlesound to aS(1)");
-                break;
-            case 2:
-                bottomSound = inputClip;
-                aS[2].clip = bottomSound;
-                print("adding bottomsound to aS(2)");
-                break;
-            default:
-                print("Error: addClip case default");
-                break;
-        }
-//        audioClip = inputClip;
-//        aS.clip = audioClip;
-    }
-
-    // Checks if you have an inputted clip and plays it
-    public void playClip(int index) {
-        if(aS[index].clip != null) {
-            aS[index].Play();
-        } else {
-            print("no audio clip buddy :( Try using the addClip function with an AudioClip");
-        }
-    }*/
 }
