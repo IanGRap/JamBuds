@@ -12,7 +12,7 @@ public class PlayerControl : MonoBehaviour {
     public AudioClip topSound;      // the track associated with the top row
     public AudioClip middleSound;    // The track associated with the middle row
     public AudioClip bottomSound;    // the track associated with the bottom sound
-    private AudioSource[] aS = new AudioSource[3];        // Audio Source reference, used to play, pause, and manage the audio
+    private AudioSource aS;        // Audio Source reference, used to play, pause, and manage the audio
 
     ///////////////////////////////
     //LOOK BELOW TO MODIFY VALUES//
@@ -23,13 +23,8 @@ public class PlayerControl : MonoBehaviour {
     private float[] colEdge = new float[] {-13.5f, -9.0f, -4.5f, 0.0f, 4.5f, 9.0f, 13.5f, 18.0f}; // location where notes can be placed
     private float[] noteOffset = new float[] {0.6f, 0.4f, 0.2f, 0.0f, -0.2f, -0.4f, -0.6f, -0.8f};
 	void Start () {
-        for(int i = 0; i < 3; i++){
-            aS[i] = gameObject.GetComponent<AudioSource>();
-        }
-        addClip(topSound, 0);
-        addClip(middleSound, 1);
-        addClip(bottomSound, 2);
-        
+        aS = gameObject.GetComponent<AudioSource>();
+
 	}
 	
 	// Update is called once per frame
@@ -93,30 +88,45 @@ public class PlayerControl : MonoBehaviour {
         for(int i = 0; i < 8; i++){
             if(player.transform.position.x > colEdge[i]+noteOffset[i]-0.05f && player.transform.position.x < colEdge[i]+noteOffset[i]+0.05f && isInCol[i]){
                 if(Notes[i].transform.position.z > 1.0f){
-                    playClip(0);
+                    addAndPlay(topSound);
                 }
                 else if(Notes[i].transform.position.z < -1.0f){
-                    playClip(2);
+                    addAndPlay(bottomSound);
                 }
                 else{
-                    playClip(1);
+                    addAndPlay(middleSound);
                 }
             }
         }
 	}
+
+
+    public void addAndPlay(AudioClip inputClip){
+        aS.clip = inputClip;
+        if(aS.clip != null){
+            aS.Play();
+        }
+        else {
+            print("no audio clip provided");
+        }
+    }
+/*
     public void addClip(AudioClip inputClip, int index) {
         switch (index){
             case 0:
                 topSound = inputClip;
                 aS[0].clip = topSound;
+                print("adding topsound to aS(0)");
                 break;
             case 1:
                 middleSound = inputClip;
                 aS[1].clip = middleSound;
+                print("adding middlesound to aS(1)");
                 break;
             case 2:
                 bottomSound = inputClip;
                 aS[2].clip = bottomSound;
+                print("adding bottomsound to aS(2)");
                 break;
             default:
                 print("Error: addClip case default");
@@ -133,5 +143,5 @@ public class PlayerControl : MonoBehaviour {
         } else {
             print("no audio clip buddy :( Try using the addClip function with an AudioClip");
         }
-    }
+    }*/
 }
