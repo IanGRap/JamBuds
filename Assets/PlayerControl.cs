@@ -21,7 +21,7 @@ public class PlayerControl : MonoBehaviour {
     private const float vertMove = 6.666666666666f; // constant variable to control player motion
     private const float staffEdge = 18.0f;          // location of the edge of the staff
     private float[] colEdge = new float[] {-13.5f, -9.0f, -4.5f, 0.0f, 4.5f, 9.0f, 13.5f, 18.0f}; // location where notes can be placed
-    private float[] noteOffset = new float[] {0.6f, 0.4f, 0.2f, 0.0f, -0.2f, -0.4f, -0.6f, -0.8f};
+    private float[] noteOffset = new float[] {0.3f, 0.2f, 0.1f, 0.0f, -0.1f, -0.2f, -0.3f, -0.4f};
 	void Start () {
         aS = gameObject.GetComponent<AudioSource>();
 
