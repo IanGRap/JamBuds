@@ -6,6 +6,7 @@ public class PlayerControl : MonoBehaviour {
     public float speed = 5.0f;    // this controls the speed of the constant rightward motion
     public GameObject player;// This is a reference to the player, remember to drag and drop player object
     public Material noteMaterial; // this is a public variable containing the note materail
+    public bool useSpaces = true; // if true, the notes are placed in the middle of the spaces, not on the lines
     private GameObject[] Notes = new GameObject[8]; // these will keep references to the note objects
 //    private int numNotes = 0; // this keeps track of how many notes have been placed
     private bool[] isInCol = new bool[] {false, false, false, false, false, false, false, false}; // this keeps track of the collumns which already have notes
@@ -21,9 +22,16 @@ public class PlayerControl : MonoBehaviour {
     private const float vertMove = 6.666666666666f; // constant variable to control player motion
     private const float staffEdge = 18.0f;          // location of the edge of the staff
     private float[] colEdge = new float[] {-13.5f, -9.0f, -4.5f, 0.0f, 4.5f, 9.0f, 13.5f, 18.0f}; // location where notes can be placed
-    private float[] noteOffset = new float[] {0.3f, 0.2f, 0.1f, 0.0f, -0.1f, -0.2f, -0.3f, -0.4f};
+    private float[] noteOffset = new float[] {0.3f, 0.2f, 0.1f, 0.0f, -0.1f, -0.2f, -0.3f, -0.4f}; // these offset the position of the notes to account for paralax
 	void Start () {
         aS = gameObject.GetComponent<AudioSource>();
+
+        // move the position of the notes to the center of the spaces if option is selected
+        if(useSpaces){
+            for( int i = 0; i < colEdge.Length; i++){
+                colEdge[i] = colEdge[i] - 2.25f;
+            }
+        }
 
 	}
 	
