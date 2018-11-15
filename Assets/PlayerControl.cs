@@ -10,6 +10,7 @@ public class PlayerControl : MonoBehaviour {
     public float speed = 5.0f;    // this controls the speed of the constant rightward motion
     public GameObject player;// This is a reference to the player, remember to drag and drop player object
     public Material noteMaterial; // this is a public variable containing the note materail
+    public Transform staff;
     public bool useSpaces = true; // if true, the notes are placed in the middle of the spaces, not on the lines
     private GameObject[] Notes = new GameObject[8]; // these will keep references to the note objects
     private bool[] isInCol = new bool[] {false, false, false, false, false, false, false, false}; // this keeps track of the collumns which already have notes
@@ -48,67 +49,67 @@ public class PlayerControl : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
       // constant motion is handled below, notice it is multiplies by speed
-       player.transform.position += Vector3.right * speed * Time.deltaTime;
+       player.transform.localPosition += Vector3.right * speed * Time.deltaTime;
         // this is the right-left world wrap
-        if(player.transform.position.x > staffEdge) {
-            player.transform.position = new Vector3(-staffEdge, player.transform.position.y, player.transform.position.z);
+        if(player.transform.localPosition.x > staffEdge) {
+            player.transform.localPosition = new Vector3(-staffEdge, player.transform.localPosition.y, player.transform.localPosition.z);
         }
         // This allows the player to move up
         if(Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow)){
-            player.transform.position = new Vector3(player.transform.position.x, player.transform.position.y, player.transform.position.z + vertMove);
+            player.transform.localPosition = new Vector3(player.transform.localPosition.x, player.transform.localPosition.y, player.transform.localPosition.z + vertMove);
         }
         // this allow the palyer to move down
         if(Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow)){
-            player.transform.position = new Vector3(player.transform.position.x, player.transform.position.y, player.transform.position.z - vertMove);
+            player.transform.localPosition = new Vector3(player.transform.localPosition.x, player.transform.localPosition.y, player.transform.localPosition.z - vertMove);
         }
 
         // this section is the world wrap from top to bottom
-        if(player.transform.position.z > vertMove){
-            player.transform.position = new Vector3(player.transform.position.x, player.transform.position.y, -vertMove);
+        if(player.transform.localPosition.z > vertMove){
+            player.transform.localPosition = new Vector3(player.transform.localPosition.x, player.transform.localPosition.y, -vertMove);
         }
 
         // this section is the world wrap from bottom to top
-        if(player.transform.position.z < -vertMove){
-            player.transform.position = new Vector3(player.transform.position.x, player.transform.position.y, vertMove);
+        if(player.transform.localPosition.z < -vertMove){
+            player.transform.localPosition = new Vector3(player.transform.localPosition.x, player.transform.localPosition.y, vertMove);
         }
         // This should create a not on the screen, I hope
         if(Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.Space)){
-            // calculate the position and place note if necessary in collumns 2 through 8
+            // calculate the Position and place note if necessary in collumns 2 through 8
             for(int i = 1; i < 8; i++){
-                if(player.transform.position.x < colEdge[i] && player.transform.position.x > colEdge[i-1] && !isInCol[i]){
+                if(player.transform.localPosition.x < colEdge[i] && player.transform.localPosition.x > colEdge[i-1] && !isInCol[i]){
                     Notes[i] = GameObject.CreatePrimitive(PrimitiveType.Cylinder); // add a note to the array 
-                    Notes[i].transform.position = new Vector3(colEdge[i] + noteOffset[i], player.transform.position.y, player.transform.position.z);
+                    Notes[i].transform.position = new Vector3(colEdge[i] + noteOffset[i]+staff.position.x, player.transform.position.y, player.transform.position.z);
                     isInCol[i] = true;
                     Notes[i].transform.Rotate(Vector3.right * 90.0f); // rotate the cylinder
                     Notes[i].GetComponent<Renderer>().material = noteMaterial; // apply the material
     //                numNotes++;// increase record of notes placed
                 }
-                else if(player.transform.position.x < colEdge[i] && player.transform.position.x > colEdge[i-1] && isInCol[i]){
-                    Notes[i].transform.position = new Vector3(colEdge[i] + noteOffset[i], player.transform.position.y, player.transform.position.z);
+                else if(player.transform.localPosition.x < colEdge[i] && player.transform.localPosition.x > colEdge[i-1] && isInCol[i]){
+                    Notes[i].transform.position = new Vector3(colEdge[i] + noteOffset[i]+staff.position.x, player.transform.position.y, player.transform.position.z);
                 }
             }
             
             // calculate the position to place the note and place one if necessary 1st collumn
-            if(player.transform.position.x < colEdge[0] && !isInCol[0]){
+            if(player.transform.localPosition.x < colEdge[0] && !isInCol[0]){
                 Notes[0] = GameObject.CreatePrimitive(PrimitiveType.Cylinder); // add a note to the array 
-                Notes[0].transform.position = new Vector3(colEdge[0] + noteOffset[0], player.transform.position.y, player.transform.position.z); // adjust x position for angle of view
+                Notes[0].transform.position = new Vector3(colEdge[0] + noteOffset[0]+staff.position.x, player.transform.position.y, player.transform.position.z); // adjust x position for angle of view
                 isInCol[0] = true;
                 Notes[0].transform.Rotate(Vector3.right * 90.0f); // rotate the cylinder
                 Notes[0].GetComponent<Renderer>().material = noteMaterial; // apply the material
 //                numNotes++;// increase record of notes placed
             }
-            else if(player.transform.position.x < colEdge[0] && isInCol[0]){
-                Notes[0].transform.position = new Vector3(colEdge[0] + noteOffset[0], player.transform.position.y, player.transform.position.z); // adjust x position for angle of view
+            else if(player.transform.localPosition.x < colEdge[0] && isInCol[0]){
+                Notes[0].transform.position = new Vector3(colEdge[0] + noteOffset[0]+staff.position.x, player.transform.position.y, player.transform.localPosition.z); // adjust x position for angle of view
             }
 
         }
         // place audio clip play sounds
         for(int i = 0; i < 8; i++){
-            if(player.transform.position.x > colEdge[i]+noteOffset[i]-0.05f && player.transform.position.x < colEdge[i]+noteOffset[i]+0.05f && isInCol[i]){
-                if(Notes[i].transform.position.z > 1.0f){
+            if(player.transform.localPosition.x > colEdge[i]+noteOffset[i]-0.05f && player.transform.localPosition.x < colEdge[i]+noteOffset[i]+0.05f && isInCol[i]){
+                if(Notes[i].transform.localPosition.z > player.transform.parent.position.z + 1.0f){
                     addAndPlay(sounds[top], 0);
                 }
-                else if(Notes[i].transform.position.z < -1.0f){
+                else if(Notes[i].transform.localPosition.z < player.transform.parent.position.z-1.0f){
                     addAndPlay(sounds[bottom], 0);
                 }
                 else{
@@ -120,7 +121,7 @@ public class PlayerControl : MonoBehaviour {
         if(Input.GetKeyDown(KeyCode.N) && !isComplete){
             for(int i = 0; i < Notes.Length; i++){
                 if(isInCol[i]){
-                    prevNotePosition[i] = Notes[i].transform.position.z;
+                    prevNotePosition[i] = Notes[i].transform.localPosition.z;
                 }
                 wasUsed[i] = isInCol[i];
                 isInCol[i] = false;
@@ -139,7 +140,7 @@ public class PlayerControl : MonoBehaviour {
 
     public void playBackground(){
         for(int i = 0; i < 8; i++){
-            if(player.transform.position.x > colEdge[i]+noteOffset[i]-0.05f && player.transform.position.x < colEdge[i]+noteOffset[i]+0.05f && wasUsed[i]){
+            if(player.transform.localPosition.x > colEdge[i]+noteOffset[i]-0.05f && player.transform.localPosition.x < colEdge[i]+noteOffset[i]+0.05f && wasUsed[i]){
                 if(prevNotePosition[i] > 1.0f){
                     addAndPlay(sounds[0], 1);
                 }
