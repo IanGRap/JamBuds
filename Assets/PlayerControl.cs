@@ -55,11 +55,11 @@ public class PlayerControl : MonoBehaviour {
             player.transform.localPosition = new Vector3(-staffEdge, player.transform.localPosition.y, player.transform.localPosition.z);
         }
         // This allows the player to move up
-        if(Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow)){
+        if(Input.GetKeyDown(KeyCode.UpArrow)){
             player.transform.localPosition = new Vector3(player.transform.localPosition.x, player.transform.localPosition.y, player.transform.localPosition.z + vertMove);
         }
         // this allow the palyer to move down
-        if(Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow)){
+        if(Input.GetKeyDown(KeyCode.DownArrow)){
             player.transform.localPosition = new Vector3(player.transform.localPosition.x, player.transform.localPosition.y, player.transform.localPosition.z - vertMove);
         }
 
@@ -73,7 +73,7 @@ public class PlayerControl : MonoBehaviour {
             player.transform.localPosition = new Vector3(player.transform.localPosition.x, player.transform.localPosition.y, vertMove);
         }
         // This should create a not on the screen, I hope
-        if(Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.Space)){
+        if(Input.GetKeyDown(KeyCode.Space)){
             // calculate the Position and place note if necessary in collumns 2 through 8
             for(int i = 1; i < 8; i++){
                 if(player.transform.localPosition.x < colEdge[i] && player.transform.localPosition.x > colEdge[i-1] && !isInCol[i]){
@@ -118,7 +118,7 @@ public class PlayerControl : MonoBehaviour {
             }
         }
 
-        if(Input.GetKeyDown(KeyCode.N) && !isComplete){
+        if(Input.GetKeyDown(KeyCode.Return) && !isComplete){
             for(int i = 0; i < Notes.Length; i++){
                 if(isInCol[i]){
                     prevNotePosition[i] = Notes[i].transform.localPosition.z;
