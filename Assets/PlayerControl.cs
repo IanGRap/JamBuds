@@ -7,7 +7,7 @@ public class PlayerControl : MonoBehaviour {
     // We are going to start out by hardcoding the ability for two animals to play sounds while
     // we take the time to learn how to do this more dynamically
 
-    public float speed = 5.0f;    // this controls the speed of the constant rightward motion
+    private float speed = 5.0f;    // this controls the speed of the constant rightward motion
     public GameObject player;// This is a reference to the player, remember to drag and drop player object
     public Material noteMaterial; // this is a public variable containing the note materail
     public Transform staff;
@@ -32,17 +32,23 @@ public class PlayerControl : MonoBehaviour {
     private const float vertMove = 6.666666666666f; // constant variable to control player motion
     private const float staffEdge = 18.0f;          // location of the edge of the staff
     private float[] colEdge = new float[] {-13.5f, -9.0f, -4.5f, 0.0f, 4.5f, 9.0f, 13.5f, 18.0f}; // location where notes can be placed
-    private float[] noteOffset = new float[] {0.3f, 0.2f, 0.1f, 0.0f, -0.1f, -0.2f, -0.3f, -0.4f}; // these offset the position of the notes to account for paralax
+    private float[] noteOffset = new float[] {0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f};// these offset the position of the notes to account for paralax
+    private float xscale; // holds the scale on the x axis so that it will remain in proportion regarless of how it is stretched
 
 	void Start () {
         aS = gameObject.GetComponents<AudioSource>();
-
-        // move the position of the notes to the center of the spaces if option is selected
-        if(useSpaces){
-            for( int i = 0; i < colEdge.Length; i++){
+        xscale = staff.localScale.x;
+        for(int i = 0; i < colEdge.Length; i++){
+            // move position to the notes if spaces are used
+            if(useSpaces){
                 colEdge[i] = colEdge[i] - 2.25f;
             }
+            // adjust position by current scale of the staff
+            colEdge[i] = colEdge[i] * xscale;
+            // print(colEdge[i]);
         }
+        // adjust the speed by the local scale
+        speed = speed * xscale;
 
 	}
 	
@@ -76,7 +82,7 @@ public class PlayerControl : MonoBehaviour {
         if(Input.GetKeyDown(KeyCode.Space)){
             // calculate the Position and place note if necessary in collumns 2 through 8
             for(int i = 1; i < 8; i++){
-                if(player.transform.localPosition.x < colEdge[i] && player.transform.localPosition.x > colEdge[i-1] && !isInCol[i]){
+                if(player.transform.localPosition.x*xscale < colEdge[i] && player.transform.localPosition.x*xscale > colEdge[i-1] && !isInCol[i]){
                     Notes[i] = GameObject.CreatePrimitive(PrimitiveType.Cylinder); // add a note to the array 
                     Notes[i].transform.position = new Vector3(colEdge[i] + noteOffset[i]+staff.position.x, player.transform.position.y, player.transform.position.z);
                     isInCol[i] = true;
@@ -84,13 +90,13 @@ public class PlayerControl : MonoBehaviour {
                     Notes[i].GetComponent<Renderer>().material = noteMaterial; // apply the material
     //                numNotes++;// increase record of notes placed
                 }
-                else if(player.transform.localPosition.x < colEdge[i] && player.transform.localPosition.x > colEdge[i-1] && isInCol[i]){
+                else if(player.transform.localPosition.x*xscale < colEdge[i] && player.transform.localPosition.x*xscale > colEdge[i-1] && isInCol[i]){
                     Notes[i].transform.position = new Vector3(colEdge[i] + noteOffset[i]+staff.position.x, player.transform.position.y, player.transform.position.z);
                 }
             }
             
             // calculate the position to place the note and place one if necessary 1st collumn
-            if(player.transform.localPosition.x < colEdge[0] && !isInCol[0]){
+            if(player.transform.localPosition.x*xscale < colEdge[0] && !isInCol[0]){
                 Notes[0] = GameObject.CreatePrimitive(PrimitiveType.Cylinder); // add a note to the array 
                 Notes[0].transform.position = new Vector3(colEdge[0] + noteOffset[0]+staff.position.x, player.transform.position.y, player.transform.position.z); // adjust x position for angle of view
                 isInCol[0] = true;
@@ -98,14 +104,14 @@ public class PlayerControl : MonoBehaviour {
                 Notes[0].GetComponent<Renderer>().material = noteMaterial; // apply the material
 //                numNotes++;// increase record of notes placed
             }
-            else if(player.transform.localPosition.x < colEdge[0] && isInCol[0]){
-                Notes[0].transform.position = new Vector3(colEdge[0] + noteOffset[0]+staff.position.x, player.transform.position.y, player.transform.localPosition.z); // adjust x position for angle of view
+            else if(player.transform.localPosition.x*xscale < colEdge[0] && isInCol[0]){
+                Notes[0].transform.position = new Vector3(colEdge[0] + noteOffset[0]+staff.position.x, player.transform.position.y, player.transform.position.z); // adjust x position for angle of view
             }
 
         }
         // place audio clip play sounds
         for(int i = 0; i < 8; i++){
-            if(player.transform.localPosition.x > colEdge[i]+noteOffset[i]-0.05f && player.transform.localPosition.x < colEdge[i]+noteOffset[i]+0.05f && isInCol[i]){
+            if(player.transform.localPosition.x*xscale > colEdge[i]+noteOffset[i]-0.05f && player.transform.localPosition.x*xscale < colEdge[i]+noteOffset[i]+0.05f && isInCol[i]){
                 if(Notes[i].transform.localPosition.z > player.transform.parent.position.z + 1.0f){
                     addAndPlay(sounds[top], 0);
                 }
@@ -140,7 +146,7 @@ public class PlayerControl : MonoBehaviour {
 
     public void playBackground(){
         for(int i = 0; i < 8; i++){
-            if(player.transform.localPosition.x > colEdge[i]+noteOffset[i]-0.05f && player.transform.localPosition.x < colEdge[i]+noteOffset[i]+0.05f && wasUsed[i]){
+            if(player.transform.localPosition.x*xscale > colEdge[i]+noteOffset[i]-0.05f && player.transform.localPosition.x*xscale < colEdge[i]+noteOffset[i]+0.05f && wasUsed[i]){
                 if(prevNotePosition[i] > 1.0f){
                     addAndPlay(sounds[0], 1);
                 }
