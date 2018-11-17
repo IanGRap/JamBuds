@@ -26,6 +26,12 @@ public class PlayerControl : MonoBehaviour {
     private int middle = 1;
     private int bottom = 2;
 
+    //  Cursor variables
+    public float playerPositionZ;
+    public GameObject cursor1;
+    public GameObject cursor2;
+    public GameObject cursor3;
+
     ///////////////////////////////
     //LOOK BELOW TO MODIFY VALUES//
     ///////////////////////////////
@@ -51,12 +57,14 @@ public class PlayerControl : MonoBehaviour {
         // adjust the speed by the local scale
         speed = speed * xscale;
 
-	}
+        playerPositionZ = player.transform.position.z;
+    }
 	
 	// Update is called once per frame
 	void Update () {
       // constant motion is handled below, notice it is multiplies by speed
        player.transform.localPosition += Vector3.right * speed * Time.deltaTime;
+        
         // this is the right-left world wrap
         if(player.transform.localPosition.x > staffEdge) {
             player.transform.localPosition = new Vector3(-staffEdge, player.transform.localPosition.y, player.transform.localPosition.z);
@@ -127,7 +135,26 @@ public class PlayerControl : MonoBehaviour {
             }
         }
 
-        if(Input.GetKeyDown(KeyCode.Return) && !isComplete){
+        Debug.Log(player.transform.position.z);
+        // changes cursor to the appropriate sprite
+        if(player.transform.position.z > playerPositionZ)
+        {
+            cursor1.GetComponent<Renderer>().enabled = true;
+            cursor2.GetComponent<Renderer>().enabled = false;
+            cursor3.GetComponent<Renderer>().enabled = false;
+        }
+        else if (player.transform.position.z < playerPositionZ){
+            cursor1.GetComponent<Renderer>().enabled = false;
+            cursor2.GetComponent<Renderer>().enabled = false;
+            cursor3.GetComponent<Renderer>().enabled = true;
+        }
+        else {
+            cursor1.GetComponent<Renderer>().enabled = false;
+            cursor2.GetComponent<Renderer>().enabled = true;
+            cursor3.GetComponent<Renderer>().enabled = false;
+        }
+
+        if (Input.GetKeyDown(KeyCode.Return) && !isComplete){
             for(int i = 0; i < Notes.Length; i++){
                 if(isInCol[i]){
                     prevNotePosition[i] = Notes[i].transform.localPosition.z;
