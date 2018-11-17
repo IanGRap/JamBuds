@@ -10,6 +10,7 @@ public class PlayerControl : MonoBehaviour {
     public float speed = 5.0f;    // this controls the speed of the constant rightward motion
     public GameObject player;// This is a reference to the player, remember to drag and drop player object
     public Material noteMaterial; // this is a public variable containing the note materail
+    public float noteScale = 1.0f; // Ysed to change the scale of the notes when being placeds
     public Transform staff;
     public bool useSpaces = true; // if true, the notes are placed in the middle of the spaces, not on the lines
     private GameObject[] Notes = new GameObject[8]; // these will keep references to the note objects
@@ -83,10 +84,11 @@ public class PlayerControl : MonoBehaviour {
             // calculate the Position and place note if necessary in collumns 2 through 8
             for(int i = 1; i < 8; i++){
                 if(player.transform.localPosition.x*xscale < colEdge[i] && player.transform.localPosition.x*xscale > colEdge[i-1] && !isInCol[i]){
-                    Notes[i] = GameObject.CreatePrimitive(PrimitiveType.Cylinder); // add a note to the array 
+                    Notes[i] = GameObject.CreatePrimitive(PrimitiveType.Cube); // add a note to the array 
                     Notes[i].transform.position = new Vector3(colEdge[i] + noteOffset[i]+staff.position.x, player.transform.position.y, player.transform.position.z);
+                    Notes[i].transform.localScale = new Vector3(noteScale, noteScale, noteScale); // adjust x position for angle of view
                     isInCol[i] = true;
-                    Notes[i].transform.Rotate(Vector3.right * 90.0f); // rotate the cylinder
+                    Notes[i].transform.Rotate(Vector3.up * 180.0f); // rotate the cube upside down
                     Notes[i].GetComponent<Renderer>().material = noteMaterial; // apply the material
     //                numNotes++;// increase record of notes placed
                 }
@@ -97,10 +99,11 @@ public class PlayerControl : MonoBehaviour {
             
             // calculate the position to place the note and place one if necessary 1st collumn
             if(player.transform.localPosition.x*xscale < colEdge[0] && !isInCol[0]){
-                Notes[0] = GameObject.CreatePrimitive(PrimitiveType.Cylinder); // add a note to the array 
+                Notes[0] = GameObject.CreatePrimitive(PrimitiveType.Cube); // add a note to the array 
                 Notes[0].transform.position = new Vector3(colEdge[0] + noteOffset[0]+staff.position.x, player.transform.position.y, player.transform.position.z); // adjust x position for angle of view
+                Notes[0].transform.localScale = new Vector3(noteScale,noteScale,noteScale); // adjust x position for angle of view
                 isInCol[0] = true;
-                Notes[0].transform.Rotate(Vector3.right * 90.0f); // rotate the cylinder
+                Notes[0].transform.Rotate(Vector3.up * 180.0f); // rotate the cube upside down
                 Notes[0].GetComponent<Renderer>().material = noteMaterial; // apply the material
 //                numNotes++;// increase record of notes placed
             }
