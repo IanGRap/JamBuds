@@ -10,6 +10,7 @@ public class CharacterManager : MonoBehaviour {
     public int stageScale = 3;
     public int performScale = 1;
 
+    private int totalCharacters = 2;
     private int currentCharacter = -1;
 
 	void Start () {
@@ -33,7 +34,7 @@ public class CharacterManager : MonoBehaviour {
     }
 
     private void Update(){
-        if(Input.GetButtonDown("Submit")){
+        if(Input.GetButtonDown("Submit") && currentCharacter < totalCharacters){
             NextCharacter();
         }
     }
