@@ -7,7 +7,7 @@ public class PlayerControl : MonoBehaviour {
     // We are going to start out by hardcoding the ability for two animals to play sounds while
     // we take the time to learn how to do this more dynamically
 
-    private float speed = 5.0f;    // this controls the speed of the constant rightward motion
+    public float speed = 5.0f;    // this controls the speed of the constant rightward motion
     public GameObject player;// This is a reference to the player, remember to drag and drop player object
     public Material noteMaterial; // this is a public variable containing the note materail
     public Transform staff;
