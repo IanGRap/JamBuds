@@ -122,7 +122,7 @@ public class PlayerControl : MonoBehaviour {
         }
         // place audio clip play sounds
         for(int i = 0; i < 8; i++){
-            if(player.transform.localPosition.x*xscale > colEdge[i]+noteOffset[i]-0.05f && player.transform.localPosition.x*xscale < colEdge[i]+noteOffset[i]+0.05f && isInCol[i]){
+            if(player.transform.localPosition.x*xscale > colEdge[i]+noteOffset[i]-0.02f && player.transform.localPosition.x*xscale < colEdge[i]+noteOffset[i]+0.02f && isInCol[i]){
                 if(Notes[i].transform.localPosition.z > player.transform.parent.position.z + 1.0f){
                     addAndPlay(sounds[top], 0);
                 }
@@ -135,15 +135,14 @@ public class PlayerControl : MonoBehaviour {
             }
         }
 
-        Debug.Log(player.transform.position.z);
+        // Debug.Log(player.transform.position.z);
         // changes cursor to the appropriate sprite
-        if(player.transform.position.z > playerPositionZ)
-        {
+        if(player.transform.position.z > playerPositionZ) {
             cursor1.GetComponent<Renderer>().enabled = true;
             cursor2.GetComponent<Renderer>().enabled = false;
             cursor3.GetComponent<Renderer>().enabled = false;
         }
-        else if (player.transform.position.z < playerPositionZ){
+        else if (player.transform.position.z < playerPositionZ) {
             cursor1.GetComponent<Renderer>().enabled = false;
             cursor2.GetComponent<Renderer>().enabled = false;
             cursor3.GetComponent<Renderer>().enabled = true;
@@ -176,7 +175,7 @@ public class PlayerControl : MonoBehaviour {
 
     public void playBackground(){
         for(int i = 0; i < 8; i++){
-            if(player.transform.localPosition.x*xscale > colEdge[i]+noteOffset[i]-0.05f && player.transform.localPosition.x*xscale < colEdge[i]+noteOffset[i]+0.05f && wasUsed[i]){
+            if(player.transform.localPosition.x*xscale > colEdge[i]+noteOffset[i]-0.02f && player.transform.localPosition.x*xscale < colEdge[i]+noteOffset[i]+0.02f && wasUsed[i]){
                 if(prevNotePosition[i] > player.transform.parent.position.z + 1.0f){
                     addAndPlay(sounds[0], 1);
                 }
