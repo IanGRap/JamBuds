@@ -6,7 +6,7 @@ public class CharacterManager : MonoBehaviour {
 
     public Transform[] characterSprites;
     public Transform stagePosition;
-    public Transform performPosition;
+    public Transform[] performPositions;
     public int stageScale = 3;
     public int performScale = 1;
 
@@ -22,7 +22,7 @@ public class CharacterManager : MonoBehaviour {
     public void NextCharacter(){
         if(currentCharacter >= 0){
             characterSprites[currentCharacter].localScale = Vector3.one * performScale;
-            characterSprites[currentCharacter].position = performPosition.position;
+            characterSprites[currentCharacter].position = performPositions[currentCharacter].position;
         }
         ++currentCharacter;
         if (currentCharacter < characterSprites.Length){
