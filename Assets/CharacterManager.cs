@@ -33,8 +33,8 @@ public class CharacterManager : MonoBehaviour {
     }
 
     private void Update(){
-        //if(Input.GetButtonDown("Jump")){
-        //    NextCharacter();
-        //}
+        if(Input.GetButtonDown("Submit")){
+            NextCharacter();
+        }
     }
 }
