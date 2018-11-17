@@ -147,10 +147,10 @@ public class PlayerControl : MonoBehaviour {
     public void playBackground(){
         for(int i = 0; i < 8; i++){
             if(player.transform.localPosition.x*xscale > colEdge[i]+noteOffset[i]-0.05f && player.transform.localPosition.x*xscale < colEdge[i]+noteOffset[i]+0.05f && wasUsed[i]){
-                if(prevNotePosition[i] > 1.0f){
+                if(prevNotePosition[i] > player.transform.parent.position.z + 1.0f){
                     addAndPlay(sounds[0], 1);
                 }
-                else if(prevNotePosition[i] < -1.0f){
+                else if(prevNotePosition[i] < player.transform.parent.position.z - 1.0f){
                     addAndPlay(sounds[2], 1);
                 }
                 else{
