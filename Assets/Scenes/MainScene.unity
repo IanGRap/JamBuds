@@ -787,16 +787,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 44ad7c6e8b854254dbf4c2cede2c94d7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 1.15
+  speed: 1.14
   player: {fileID: 491107303}
   noteMaterial: {fileID: 2100000, guid: d64cfec39189fe640855d4721a7cc0ae, type: 2}
   noteScale: 2.5
   staff: {fileID: 979354901}
   useSpaces: 0
   sounds:
-  - {fileID: 8300000, guid: f0e27387c2dbdd24abe31dc6bce44eae, type: 3}
+  - {fileID: 8300000, guid: 01222e4c3c2cd264b8b8224935d1b81f, type: 3}
   - {fileID: 8300000, guid: 5e3369b1f12ceee46aa2c1774daac23f, type: 3}
-  - {fileID: 8300000, guid: a496c897153fe2948be12b0dce2c2689, type: 3}
+  - {fileID: 8300000, guid: 906c9e5d7349dab448b58e088121a017, type: 3}
   - {fileID: 8300000, guid: c68c13f0ee0950f4e803dbc0c060da05, type: 3}
   - {fileID: 8300000, guid: 746f60808874b064a85edea17ebf24e8, type: 3}
   - {fileID: 8300000, guid: d52b3b10720bac24885a16defc13fe48, type: 3}
@@ -3483,7 +3483,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_UiScaleMode: 0
   m_ReferencePixelsPerUnit: 100
-  m_ScaleFactor: 1.42
+  m_ScaleFactor: 1.96
   m_ReferenceResolution: {x: 800, y: 600}
   m_ScreenMatchMode: 0
   m_MatchWidthOrHeight: 0
